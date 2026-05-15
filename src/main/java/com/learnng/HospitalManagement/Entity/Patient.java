@@ -1,9 +1,7 @@
 package com.learnng.HospitalManagement.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.learnng.HospitalManagement.Entity.type.BloodGroup;
+import jakarta.persistence.*;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -20,6 +18,9 @@ public class Patient {
     private LocalDate birthDate;
     private String email;
     private String gender;
+
+    @Enumerated(EnumType.STRING)
+    private BloodGroup bloodGroup;
 
 //    @Override
 //    public String toString() {
