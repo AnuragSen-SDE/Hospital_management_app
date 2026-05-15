@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @ToString
@@ -22,14 +23,11 @@ public class Patient {
     @Enumerated(EnumType.STRING)
     private BloodGroup bloodGroup;
 
-//    @Override
-//    public String toString() {
-//        return "Patient{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", birthDate=" + birthDate +
-//                ", email='" + email + '\'' +
-//                ", gender='" + gender + '\'' +
-//                '}';
-//    }
+    @OneToOne
+    @JoinColumn(name = "insurance")
+    private Insurance insurance;
+
+    @OneToMany(mappedBy = "patient")
+    private List<Appointment> appointment;
+
 }
