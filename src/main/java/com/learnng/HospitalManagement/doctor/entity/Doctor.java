@@ -1,12 +1,15 @@
 package com.learnng.HospitalManagement.doctor.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,7 +36,16 @@ public class Doctor {
             orphanRemoval = true
     )
     @ToString.Exclude
-    private List<Appointment> appointments;
+    private Set<Appointment> appointments = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "doctor",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @ToString.Exclude
+    private Set<Prescription> prescriptions = new HashSet<>();
 }
 
 
