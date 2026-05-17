@@ -7,4 +7,5 @@ import java.util.List;
 public interface PatientService {
     List<Patient> getAllPatient();
     Patient getPatientByName();
+    Patient registerPatient(Patient patient);
 }

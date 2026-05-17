@@ -25,4 +25,10 @@ public class PatientServiceImpl implements PatientService {
     public Patient getPatientByName() {
         return null;
     }
+
+    @Override
+    public Patient registerPatient(Patient patient) {
+        if (patientRepository.existsByEmail(patient.getEmail())) throw new  IllegalArgumentException("Patient Already Exist with this email");
+        return patientRepository.save(patient);
+    }
 }
