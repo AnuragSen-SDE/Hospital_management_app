@@ -8,10 +8,18 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+@Entity()
+@ToString
+@Getter
+@Setter
 public class Patient {
 
     @Id
@@ -41,9 +49,14 @@ public class Patient {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
     @JoinColumn(name = "address_id")
-    private Address address;
+    @ToString.Exclude
+    private final Set<Address> address = new HashSet<>();
 
     @Column(name = "emergency_contact_number")
     private String emergencyContact;
