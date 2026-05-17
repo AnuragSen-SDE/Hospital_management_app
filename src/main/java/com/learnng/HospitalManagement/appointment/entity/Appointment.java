@@ -1,12 +1,12 @@
-package com.learnng.HospitalManagement.doctor.entity;
+package com.learnng.HospitalManagement.appointment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.learnng.HospitalManagement.doctor.entity.Doctor;
+import com.learnng.HospitalManagement.patient.entity.Patient;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +26,14 @@ public class Appointment {
     private List<String> symptoms;
     private String note;
     private LocalDate createdAt;
+
+    @JoinColumn(name = "doctor_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
 }
 

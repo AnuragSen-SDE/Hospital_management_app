@@ -1,12 +1,12 @@
 package com.learnng.HospitalManagement.doctor.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +25,15 @@ public class Doctor {
     private String phoneNumber;
     private String availableDays;
     private String roomNumber;
+
+    @OneToMany(
+            mappedBy = "doctor",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    private List<Appointment> appointments;
 }
 
 

@@ -1,5 +1,6 @@
 package com.learnng.HospitalManagement.patient.entity;
 
+import com.learnng.HospitalManagement.appointment.entity.Appointment;
 import com.learnng.HospitalManagement.patient.entity.type.BloodGroup;
 import com.learnng.HospitalManagement.patient.entity.type.GenderType;
 import jakarta.persistence.*;
@@ -52,11 +53,19 @@ public class Patient {
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            orphanRemoval = true
+            orphanRemoval = true,
+            mappedBy = "patient"
     )
-    @JoinColumn(name = "address_id")
     @ToString.Exclude
     private final Set<Address> address = new HashSet<>();
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY,
+            mappedBy = "patient"
+    )
+    private final Set<Appointment> appointments = new HashSet<>();
 
     @Column(name = "emergency_contact_number")
     private String emergencyContact;
