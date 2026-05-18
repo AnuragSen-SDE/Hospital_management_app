@@ -24,5 +24,8 @@ public class Address {
     @Column(nullable = false)
     private String policeStation;
 
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
 }

@@ -1,7 +1,10 @@
 package com.learnng.HospitalManagement.patient.entity;
 
+import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.insurance.entiy.Insurance;
 import com.learnng.HospitalManagement.patient.entity.type.BloodGroup;
 import com.learnng.HospitalManagement.patient.entity.type.GenderType;
+import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -52,11 +55,38 @@ public class Patient {
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            orphanRemoval = true
+            orphanRemoval = true,
+            mappedBy = "patient"
     )
-    @JoinColumn(name = "address_id")
     @ToString.Exclude
     private final Set<Address> address = new HashSet<>();
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY,
+            mappedBy = "patient"
+    )
+    @ToString.Exclude
+    private final Set<Appointment> appointments = new HashSet<>();
+
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY,
+            mappedBy = "patient"
+    )
+    @ToString.Exclude
+    private  Insurance insurance;
+
+    @OneToMany(
+            mappedBy = "patient",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    private Set<Prescription> prescriptions = new HashSet<>();
 
     @Column(name = "emergency_contact_number")
     private String emergencyContact;

@@ -1,0 +1,48 @@
+package com.learnng.HospitalManagement.appointment.entity;
+
+import com.learnng.HospitalManagement.doctor.entity.Doctor;
+import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
+import com.learnng.HospitalManagement.patient.entity.Patient;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@ToString
+public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private AvailableDays appointmentDay;
+
+    private LocalTime appointmentTime;
+
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
+    @ElementCollection
+    private List<String> symptoms;
+    private String note;
+    private LocalDateTime createdAt;
+
+    @JoinColumn(name = "doctor_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+}
+
