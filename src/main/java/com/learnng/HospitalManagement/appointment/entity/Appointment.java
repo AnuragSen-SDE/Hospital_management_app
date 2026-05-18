@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,11 +22,16 @@ public class Appointment {
     private Long id;
 
     private LocalDate appointmentDate;
-    private LocalDate appointmentTime;
-    private String status;
+    private LocalDateTime appointmentTime;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = AppointmentStatus.class)
+    private AppointmentStatus status;
+
+
     private List<String> symptoms;
     private String note;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @JoinColumn(name = "doctor_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,12 +43,3 @@ public class Appointment {
 
 }
 
-/*
-id
-appointmentDate
-appointmentTime
-status
-symptoms
-notes
-createdAt
- */
