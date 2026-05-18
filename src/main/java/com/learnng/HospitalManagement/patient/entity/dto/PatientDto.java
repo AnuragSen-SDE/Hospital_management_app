@@ -15,6 +15,8 @@ import java.time.LocalDate;
 @Setter
 public class PatientDto {
 
+    private Long id;
+
     @Size(min = 0,max = 50)
     @NotBlank
     @Pattern(regexp = "^[A-Za-z ]+$")

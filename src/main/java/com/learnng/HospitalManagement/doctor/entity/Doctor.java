@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.doctor.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,7 +27,11 @@ public class Doctor {
     private String qualification;
     private String yearsOfExperience;
     private String phoneNumber;
-    private String availableDays;
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = AvailableDays.class)
+    private Set<AvailableDays> availableDays = new HashSet<>();
     private String roomNumber;
 
     @OneToMany(
@@ -47,17 +52,3 @@ public class Doctor {
     @ToString.Exclude
     private Set<Prescription> prescriptions = new HashSet<>();
 }
-
-
-/*
-id
-fullName
-specialization
-qualification
-yearsOfExperience
-consultationFee
-phoneNumber
-email
-availableDays
-roomNumber
- */
