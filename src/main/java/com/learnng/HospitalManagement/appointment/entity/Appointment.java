@@ -10,6 +10,7 @@ import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -22,13 +23,12 @@ public class Appointment {
     private Long id;
 
     private LocalDate appointmentDate;
-    private LocalDateTime appointmentTime;
+    private LocalTime appointmentTime;
 
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = AppointmentStatus.class)
     private AppointmentStatus status;
 
-
+    @ElementCollection
     private List<String> symptoms;
     private String note;
     private LocalDateTime createdAt;
