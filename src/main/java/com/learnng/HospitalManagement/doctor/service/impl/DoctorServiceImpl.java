@@ -1,10 +1,14 @@
 package com.learnng.HospitalManagement.doctor.service.impl;
 
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
+import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.doctor.repository.DoctorRepository;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,21 @@ public class DoctorServiceImpl implements DoctorService {
             throw new  IllegalArgumentException("Doctor Already Exist With the specified Room number");
 
         return doctorRepository.save(doctor);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return doctorRepository.existsById(id);
+    }
+
+    @Override
+    public Doctor getDoctorById(Long id) {
+        return doctorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Doctor Not Fount"));
+    }
+
+    @Override
+    public Boolean findDoctorWithDoctorIdAndAppointmentDayAndAppointmentTime(Long id, AvailableDays appointmentDay, LocalTime appointmentTime) {
+        return false;//doctorRepository.existsByIdAndAvailableDaysAndAppointments(id,appointmentDay,appointmentTime);
     }
 
 }

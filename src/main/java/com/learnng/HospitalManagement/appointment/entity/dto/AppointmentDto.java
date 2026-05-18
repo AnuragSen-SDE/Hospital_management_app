@@ -2,6 +2,7 @@ package com.learnng.HospitalManagement.appointment.entity.dto;
 
 import com.learnng.HospitalManagement.appointment.entity.AppointmentStatus;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
+import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -15,6 +16,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Builder
@@ -25,15 +27,11 @@ public class AppointmentDto {
     private Long id;
 
     @NotNull
-    @FutureOrPresent(message = "Appointment date cannot be in the past")
-    private LocalDate appointmentDate;
+    private AvailableDays appointmentDay;
 
     @NotNull
     @FutureOrPresent(message = "Appointment Time can't be in the past")
-    private LocalDateTime appointmentTime;
-
-    @NotNull
-    private AppointmentStatus status;
+    private LocalTime appointmentTime;
 
     @NotNull(message = "Symptoms cannot be empty")
     private List<String> symptoms;
@@ -41,9 +39,6 @@ public class AppointmentDto {
     @Size(max = 500)
     private String note;
 
-    @NotNull
-    @FutureOrPresent(message = "Appointment cannot be created in the past")
-    private LocalDateTime createdAt;
 
     @NotNull
     private Long doctorId;

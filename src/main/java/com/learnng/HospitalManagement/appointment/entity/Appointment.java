@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.appointment.entity;
 
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
+import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,7 +23,9 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate appointmentDate;
+    @Enumerated(EnumType.STRING)
+    private AvailableDays appointmentDay;
+
     private LocalTime appointmentTime;
 
     @Enumerated(EnumType.STRING)
