@@ -86,4 +86,21 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    @Override
+    public void updateAppointmentStatus(Long appointmentId,AppointmentStatus status) {
+
+        Appointment appointment = appointmentRepository
+                .findById(
+                        appointmentId
+                ).orElseThrow(
+                        () -> new AppointmentException("Appointment Not found with id : " + appointmentId)
+                );
+        if (appointment.getStatus().equals(AppointmentStatus.COMPLETED))
+            throw new AppointmentException("Appointment Already Completed Now Can't be updated");
+
+        appointment.setStatus(status);
+        appointmentRepository.save(appointment);
+
+    }
+
 }
