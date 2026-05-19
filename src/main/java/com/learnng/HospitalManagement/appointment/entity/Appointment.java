@@ -26,7 +26,7 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AvailableDays appointmentDay;
 
-    private LocalTime appointmentTime;
+    private LocalDateTime appointmentDateTime;
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;

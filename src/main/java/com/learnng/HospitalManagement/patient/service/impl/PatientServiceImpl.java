@@ -37,7 +37,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public boolean existById(Long id) {
-        return patientRepository.existById(id);
+        return patientRepository.existsById(id);
     }
 
     @Override

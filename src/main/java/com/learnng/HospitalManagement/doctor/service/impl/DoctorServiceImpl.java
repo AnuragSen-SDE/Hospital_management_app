@@ -42,4 +42,9 @@ public class DoctorServiceImpl implements DoctorService {
         return false;//doctorRepository.existsByIdAndAvailableDaysAndAppointments(id,appointmentDay,appointmentTime);
     }
 
+    @Override
+    public boolean isDoctorAvailableSpecificDay(AvailableDays day) {
+        return doctorRepository.existsByAvailableDays(day);
+    }
+
 }

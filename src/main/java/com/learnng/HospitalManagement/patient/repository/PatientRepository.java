@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 public interface PatientRepository  extends JpaRepository<Patient,Long> {
     boolean existsByEmail(String email);
-    boolean existById(Long id);
+    boolean existsById(Long id);
 //    boolean existsByIdAndAppointmentDayAndAppointmentTime(
 //            Long id,
 //            AvailableDays appointmentDay,

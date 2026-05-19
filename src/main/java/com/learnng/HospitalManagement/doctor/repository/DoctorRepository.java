@@ -17,4 +17,6 @@ public interface DoctorRepository extends JpaRepository<Doctor,Long> {
 //            AvailableDays appointmentDay,
 //            LocalTime appointmentTime
 //    );
+
+    boolean existsByAvailableDays ( AvailableDays availableDay);
 }
