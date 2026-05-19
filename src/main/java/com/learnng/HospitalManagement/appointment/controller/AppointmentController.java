@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.appointment.controller;
 
 import com.learnng.HospitalManagement.appointment.entity.dto.AppointmentDto;
+import com.learnng.HospitalManagement.appointment.mapper.AppointmentMapper;
 import com.learnng.HospitalManagement.appointment.service.AppointmentService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
 import jakarta.validation.Valid;
@@ -19,17 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final AppointmentMapper appointmentMapper;
 
     @PostMapping
     public ResponseEntity<ApiResponse> createAppointment(
             @Valid @RequestBody AppointmentDto appointmentDto
             ) {
+        AppointmentDto response = appointmentMapper.toAppointmentDto( appointmentService.createAppointment(appointmentDto));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
                         ApiResponse.builder()
                                 .status(HttpStatus.CREATED.value())
                                 .message("Appointment Created Successfully")
-                                .data(appointmentService.createAppointment(appointmentDto))
+                                .data(response)
                                 .build()
                 );
     }

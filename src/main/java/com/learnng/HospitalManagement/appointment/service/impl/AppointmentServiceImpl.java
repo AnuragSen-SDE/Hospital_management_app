@@ -13,6 +13,8 @@ import com.learnng.HospitalManagement.exception.custom.AppointmentException;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.service.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
 
+    private static final Log log = LogFactory.getLog(AppointmentServiceImpl.class);
     private final AppointmentRepository appointmentRepository;
     private final DoctorService doctorService;
     private final PatientService patientService;
@@ -33,83 +36,43 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment createAppointment(AppointmentDto appointmentDto) {
 
-        if( appointmentDto.getAppointmentDateAndTime().isBefore(LocalDateTime.now())){
+        if( appointmentDto.getAppointmentDateTime().isBefore(LocalDateTime.now())){
             throw new AppointmentException("Appointment time can't be in the past");
         }
 
-        if( appointmentRepository.existsByPatientIdAndAppointmentDateTimeAndStatus(
+        if (!doctorService.isDoctorAvailableSpecificDay(appointmentDto.getAppointmentDay()))
+            throw new AppointmentException("Doctor is not available on this day");
+
+        if(appointmentRepository.existsByDoctorIdAndAppointmentDateTimeAndStatus(
+                appointmentDto.getDoctorId(),
+                appointmentDto.getAppointmentDateTime(),
+                AppointmentStatus.SCHEDULED
+        ) ){
+            throw new AppointmentException("Doctor is not available on this time");
+        }
+
+        if(appointmentRepository.existsByPatientIdAndAppointmentDateTimeAndStatus(
                 appointmentDto.getPatientId(),
-                appointmentDto.getAppointmentDateAndTime(),
+                appointmentDto.getAppointmentDateTime(),
                 AppointmentStatus.SCHEDULED
         )){
             throw new AppointmentException(
                     "Patient Already has An appointment on the " +
                             appointmentDto.getAppointmentDay() +
                             " at " +
-                            appointmentDto.getAppointmentDateAndTime()
+                            appointmentDto.getAppointmentDateTime()
             );
         }
 
-        if( appointmentRepository.existsByDoctorIdAndAppointmentDateTimeAndStatus(
-                appointmentDto.getDoctorId(),
-                appointmentDto.getAppointmentDateAndTime(),
-                AppointmentStatus.SCHEDULED
-        )){
-            throw new AppointmentException("Doctor is not available on this day");
-        }
 
-        if (!doctorService.isDoctorAvailableSpecificDay(appointmentDto.getAppointmentDay())) throw new AppointmentException("Doctor is not available on this day");
+
+
 
         //fetch doctor data
         Doctor doctor = doctorService.getDoctorById(appointmentDto.getDoctorId());
-        // need to check whether doctor is available in this day or not
-//        if( doctorService.findDoctorWithDoctorIdAndAppointmentDayAndAppointmentTime(
-//                appointmentDto.getDoctorId(),
-//                appointmentDto.getAppointmentDay(),
-//                appointmentDto.getAppointmentTime()
-//        )){
-//            throw new IllegalArgumentException("Doctor is not available on this day");
-//        }
-
-//        if( appointmentRepository.existsByDoctorIdAppointmentDayAndAppointmentTime(
-//                appointmentDto.getDoctorId(),
-//                appointmentDto.getAppointmentDay(),
-//                appointmentDto.getAppointmentTime()
-//        )){
-//            throw new IllegalArgumentException("Doctor is not available on this day");
-//        }
-
-
 
         //fetch patient data
         Patient patient = patientService.getPatientById(appointmentDto.getPatientId());
-
-        //check if the patent has existing appointment on the same day and time
-//        if( patientService.existsByIdAppointmentDayAndAppointmentTime(
-//                appointmentDto.getPatientId(),
-//                appointmentDto.getAppointmentDay(),
-//                appointmentDto.getAppointmentTime()
-//        )){
-//            throw new IllegalArgumentException(
-//                    "Patient Already has An appointment on the " +
-//                            appointmentDto.getAppointmentDay() +
-//                            " at " +
-//                            appointmentDto.getAppointmentTime()
-//                            );
-//        }
-
-//        if( appointmentRepository.existsByPatientIdAppointmentDayAndAppointmentTime(
-//                appointmentDto.getPatientId(),
-//                appointmentDto.getAppointmentDay(),
-//                appointmentDto.getAppointmentTime()
-//        )){
-//            throw new IllegalArgumentException(
-//                    "Patient Already has An appointment on the " +
-//                            appointmentDto.getAppointmentDay() +
-//                            " at " +
-//                            appointmentDto.getAppointmentTime()
-//            );
-//        }
 
 
 
