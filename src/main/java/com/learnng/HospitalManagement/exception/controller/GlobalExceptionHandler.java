@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.exception.controller;
 
 import com.learnng.HospitalManagement.exception.custom.AppointmentException;
+import com.learnng.HospitalManagement.exception.custom.InsuranceException;
 import com.learnng.HospitalManagement.exception.entity.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,4 +49,20 @@ public class GlobalExceptionHandler {
                 .body(response);
 
     }
+
+    @ExceptionHandler(InsuranceException.class)
+    public ResponseEntity<ErrorResponse> handleInsuranceException(
+            InsuranceException exception
+    ) {
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
+
+    }
+
+
 }
