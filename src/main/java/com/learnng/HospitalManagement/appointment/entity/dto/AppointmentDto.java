@@ -30,8 +30,8 @@ public class AppointmentDto {
     private AvailableDays appointmentDay;
 
     @NotNull
-    @FutureOrPresent(message = "Appointment Time can't be in the past")
-    private LocalTime appointmentTime;
+    @FutureOrPresent(message = "Appointment Date and time can't be in the past")
+    private LocalDateTime appointmentDateAndTime;
 
     @NotNull(message = "Symptoms cannot be empty")
     private List<String> symptoms;

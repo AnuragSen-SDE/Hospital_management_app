@@ -15,4 +15,6 @@ public interface DoctorService {
             AvailableDays appointmentDay,
             LocalTime appointmentTime
     );
+
+    boolean isDoctorAvailableSpecificDay(AvailableDays day);
 }
