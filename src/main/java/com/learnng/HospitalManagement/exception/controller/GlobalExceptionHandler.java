@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,31 @@ public class GlobalExceptionHandler {
                                 .data(map)
                                 .build()
                 );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleArgumentValidationException (
+            MethodArgumentTypeMismatchException exception
+    ) {
+        String message = "Invalid value : " + exception.getValue();
+
+        if (exception.getRequiredType() != null &&
+                exception.getRequiredType().isEnum()) {
+
+            Object[] enumConstants = exception.getRequiredType().getEnumConstants();
+
+            message = "Invalid appointment status '" + exception.getValue()
+                    + "'. Allowed values are: "
+                    + java.util.Arrays.toString(enumConstants);
+        }
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(message)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
     }
 
 

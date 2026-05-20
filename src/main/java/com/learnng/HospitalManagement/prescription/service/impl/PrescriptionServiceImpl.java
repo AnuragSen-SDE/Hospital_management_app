@@ -1,0 +1,46 @@
+package com.learnng.HospitalManagement.prescription.service.impl;
+
+import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.appointment.entity.AppointmentStatus;
+import com.learnng.HospitalManagement.appointment.service.AppointmentService;
+import com.learnng.HospitalManagement.doctor.entity.Doctor;
+import com.learnng.HospitalManagement.doctor.service.DoctorService;
+import com.learnng.HospitalManagement.patient.entity.Patient;
+import com.learnng.HospitalManagement.patient.service.PatientService;
+import com.learnng.HospitalManagement.prescription.entity.Prescription;
+import com.learnng.HospitalManagement.prescription.entity.dto.PrescriptionDto;
+import com.learnng.HospitalManagement.prescription.mapper.PrescriptionMapper;
+import com.learnng.HospitalManagement.prescription.repository.PrescriptionRepository;
+import com.learnng.HospitalManagement.prescription.service.PrescriptionService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
+@Service
+@RequiredArgsConstructor
+public class PrescriptionServiceImpl implements PrescriptionService {
+
+    private final PrescriptionRepository prescriptionRepository;
+    private final PrescriptionMapper prescriptionMapper;
+    private final DoctorService doctorService;
+    private final PatientService patientService;
+    private final AppointmentService appointmentService;
+
+    @Override
+    public Prescription createPrescription(PrescriptionDto prescriptionDto) {
+
+        Doctor doctor = doctorService.getDoctorById(prescriptionDto.getDoctorId());
+        Patient patient  = patientService.getPatientById(prescriptionDto.getPatientId());
+        Appointment appointment = appointmentService.findAppointmentById(prescriptionDto.getAppointmentId());
+        Prescription prescription = prescriptionMapper.toPrescriptionEntity(prescriptionDto);
+
+        prescription.setPatient(patient);
+        prescription.setDoctor(doctor);
+        prescription.setAppointment(appointment);
+        prescription.setPrescribedAt(LocalDateTime.now());
+
+        return prescriptionRepository.save(prescription);
+    }
+
+}

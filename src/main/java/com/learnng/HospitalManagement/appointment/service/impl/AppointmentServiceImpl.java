@@ -97,10 +97,18 @@ public class AppointmentServiceImpl implements AppointmentService {
                 );
         if (appointment.getStatus().equals(AppointmentStatus.COMPLETED))
             throw new AppointmentException("Appointment Already Completed Now Can't be updated");
+        if ( status.equals(AppointmentStatus.CONFIRMED) && appointment.getStatus().equals(AppointmentStatus.CONFIRMED))
+            throw new AppointmentException("Appointment Already confirmed");
 
         appointment.setStatus(status);
         appointmentRepository.save(appointment);
 
+    }
+
+    @Override
+    public Appointment findAppointmentById(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AppointmentException("Appointment Not found"));
     }
 
 }
