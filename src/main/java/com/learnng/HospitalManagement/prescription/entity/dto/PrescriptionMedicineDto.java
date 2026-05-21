@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.prescription.entity.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,4 +24,7 @@ public class PrescriptionMedicineDto {
     private String duration;
 
     private String instruction;
+
+    @NotNull
+    private Double price;
 }

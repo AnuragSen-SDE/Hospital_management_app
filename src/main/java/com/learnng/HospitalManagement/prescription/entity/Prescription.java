@@ -41,7 +41,11 @@ public class Prescription {
     private Appointment appointment;
 
     @NotNull
-    @ElementCollection(targetClass = PrescriptionMedicine.class)
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "prescription"
+    )
     private List<PrescriptionMedicine> prescribedMedicine;
 
     private String note;

@@ -24,16 +24,17 @@ public class PrescriptionDto {
 
     private Long id;
 
-    @NotBlank
+    @NotNull
     private Long  doctorId;
 
-    @NotBlank
+    @NotNull
     private Long  patientId;
 
-    @NotBlank
+    @NotNull
     private Long  appointmentId;
 
-    private List<PrescriptionMedicine> prescribedMedicine;
+
+    private List<PrescriptionMedicineDto> prescribedMedicine;
 
     @Size(max = 200)
     private String note;

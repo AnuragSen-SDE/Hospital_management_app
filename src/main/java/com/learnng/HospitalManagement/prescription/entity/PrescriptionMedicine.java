@@ -27,9 +27,12 @@ public class PrescriptionMedicine {
     @Column(nullable = false)
     private String duration;
 
+    @Column(nullable = false)
+    private Double price;
+
     private String instruction;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Prescription prescription;
 }
