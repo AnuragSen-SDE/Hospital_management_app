@@ -9,4 +9,5 @@ public interface PrescriptionService {
     Prescription registerPrescription(PrescriptionDto prescriptionDto);
     void addMedicine(Long prescriptionId, AddMedicineRequest addMedicineRequest);
     Prescription findPrescriptionById(Long prescriptionId);
+    Prescription finalizePrescription(Long prescriptionId);
 }

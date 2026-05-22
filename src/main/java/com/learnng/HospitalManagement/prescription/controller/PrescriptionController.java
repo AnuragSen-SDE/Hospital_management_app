@@ -64,4 +64,18 @@ public class PrescriptionController {
                                 .build()
                 );
     }
+
+    @PostMapping("/{prescriptionId}/save")
+    public ResponseEntity<ApiResponse> finalizeAndSavePrescription(
+            @PathVariable ( name = "prescriptionId") Long prescriptionId
+    ) {
+        prescriptionService.finalizePrescription(prescriptionId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(
+                        ApiResponse.builder()
+                                .status(HttpStatus.OK.value())
+                                .message("Prescription Saved successfully")
+                                .build()
+                );
+    }
 }
