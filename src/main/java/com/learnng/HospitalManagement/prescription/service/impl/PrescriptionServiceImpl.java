@@ -99,4 +99,14 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         );
     }
 
+    @Override
+    public Prescription finalizePrescription(Long prescriptionId) {
+        Prescription prescription = prescriptionRepository.findById(prescriptionId)
+                .orElseThrow(() -> new PrescriptionException("Prescription Not found"));
+
+        prescription.setPrescribedAt(LocalDateTime.now());
+
+        return prescriptionRepository.save(prescription);
+    }
+
 }
