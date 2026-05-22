@@ -50,4 +50,18 @@ public class PrescriptionController {
                                 .build()
                 );
     }
+
+    @GetMapping("/{prescriptionId}")
+    public ResponseEntity<ApiResponse> getPrescriptionById(
+            @PathVariable(name = "prescriptionId") Long prescriptionId
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(
+                        ApiResponse.builder()
+                                .status(HttpStatus.OK.value())
+                                .message("Prescription Retrived Successfully")
+                                .data(prescriptionMapper.toPrescriptionDto(prescriptionService.findPrescriptionById(prescriptionId)))
+                                .build()
+                );
+    }
 }

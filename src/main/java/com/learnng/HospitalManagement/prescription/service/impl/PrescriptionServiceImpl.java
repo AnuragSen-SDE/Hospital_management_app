@@ -78,6 +78,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
                 .durationInDays(addMedicineRequest.getDurationInDays())
                 .dosage(addMedicineRequest.getDosages())
                 .unitPrice(medicine.getUnitPrice())
+                .prescription(prescription)
+                .quantity(addMedicineRequest.getQuantity())
                 .build();
 
         //update the stock quantity
@@ -88,6 +90,13 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         prescription.getPrescribedMedicine().add(prescriptionMedicine);
 
         prescriptionRepository.save(prescription);
+    }
+
+    @Override
+    public Prescription findPrescriptionById(Long prescriptionId) {
+        return prescriptionRepository.findById(prescriptionId).orElseThrow(
+                () -> new PrescriptionException("Prescription Not found")
+        );
     }
 
 }
