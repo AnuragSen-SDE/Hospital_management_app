@@ -2,14 +2,14 @@ package com.learnng.HospitalManagement.prescription.entity;
 
 import com.learnng.HospitalManagement.medicine.entity.Medicine;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
 @Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class PrescriptionMedicine {
 
     @Id

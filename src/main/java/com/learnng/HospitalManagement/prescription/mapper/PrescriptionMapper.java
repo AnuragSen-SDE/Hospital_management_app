@@ -5,7 +5,10 @@ import com.learnng.HospitalManagement.prescription.entity.dto.PrescriptionDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        uses = {PrescriptionMedicineMapper.class}
+)
 public interface PrescriptionMapper {
 
     Prescription toPrescriptionEntity(PrescriptionDto prescriptionDto);

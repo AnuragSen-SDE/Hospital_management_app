@@ -5,6 +5,7 @@ import com.learnng.HospitalManagement.appointment.entity.AppointmentStatus;
 import com.learnng.HospitalManagement.appointment.service.AppointmentService;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
+import com.learnng.HospitalManagement.exception.custom.MedicineException;
 import com.learnng.HospitalManagement.exception.custom.PrescriptionException;
 import com.learnng.HospitalManagement.medicine.entity.Medicine;
 import com.learnng.HospitalManagement.medicine.service.MedicineService;
@@ -66,6 +67,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
         Medicine medicine = medicineService.findMedicineById(addMedicineRequest.getMedicineId());
 
+        if (medicine.getStockQuantity() < addMedicineRequest.getQuantity())
+            throw new MedicineException("Not Enough Medicine Stock Available");
+
         //create a perscriptionMedince entiy
         PrescriptionMedicine prescriptionMedicine = PrescriptionMedicine.builder()
                 .medicine(medicine)
@@ -74,11 +78,35 @@ public class PrescriptionServiceImpl implements PrescriptionService {
                 .durationInDays(addMedicineRequest.getDurationInDays())
                 .dosage(addMedicineRequest.getDosages())
                 .unitPrice(medicine.getUnitPrice())
+                .prescription(prescription)
+                .quantity(addMedicineRequest.getQuantity())
                 .build();
 
+        //update the stock quantity
+        medicine.setStockQuantity(medicine.getStockQuantity() - addMedicineRequest.getQuantity());
+        medicineService.saveMedicine(medicine);
+
+        //update the medicine in the prescription
         prescription.getPrescribedMedicine().add(prescriptionMedicine);
 
         prescriptionRepository.save(prescription);
+    }
+
+    @Override
+    public Prescription findPrescriptionById(Long prescriptionId) {
+        return prescriptionRepository.findById(prescriptionId).orElseThrow(
+                () -> new PrescriptionException("Prescription Not found")
+        );
+    }
+
+    @Override
+    public Prescription finalizePrescription(Long prescriptionId) {
+        Prescription prescription = prescriptionRepository.findById(prescriptionId)
+                .orElseThrow(() -> new PrescriptionException("Prescription Not found"));
+
+        prescription.setPrescribedAt(LocalDateTime.now());
+
+        return prescriptionRepository.save(prescription);
     }
 
 }

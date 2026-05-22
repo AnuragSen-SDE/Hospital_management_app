@@ -2,14 +2,14 @@ package com.learnng.HospitalManagement.medicine.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity(name = "medicine_master_data")
 @Getter
 @Setter
 @Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Medicine {
 
     @Id
