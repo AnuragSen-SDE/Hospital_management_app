@@ -22,10 +22,10 @@ public class PrescriptionController {
     private final PrescriptionMapper prescriptionMapper;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createPrescription(
+    public ResponseEntity<ApiResponse> registerPrescription(
             @Valid @RequestBody PrescriptionDto prescriptionDto
             ) {
-        Prescription prescription = prescriptionService.createPrescription(prescriptionDto);
+        Prescription prescription = prescriptionService.registerPrescription(prescriptionDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
                         ApiResponse.builder()

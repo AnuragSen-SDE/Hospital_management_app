@@ -32,7 +32,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Transactional
     @Override
-    public Prescription createPrescription(PrescriptionDto prescriptionDto) {
+    public Prescription registerPrescription(PrescriptionDto prescriptionDto) {
 
         if (prescriptionRepository.existsByAppointmentId(prescriptionDto.getAppointmentId()))
             throw new PrescriptionException("The appointment already associated with a prescription");
@@ -47,7 +47,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         prescription.setAppointment(appointment);
         prescription.setPrescribedAt(LocalDateTime.now());
 
-        for (PrescriptionMedicine medicine : prescription.getPrescribedMedicine()) medicine.setPrescription(prescription);
+        //for (PrescriptionMedicine medicine : prescription.getPrescribedMedicine()) medicine.setPrescription(prescription);
 
 
         //Prescription prescription1 = prescriptionRepository.save(prescription);

@@ -33,14 +33,12 @@ public class Prescription {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    @NotNull
     private Patient patient;
 
     @OneToOne
     @JoinColumn(nullable = false)
     private Appointment appointment;
 
-    @NotNull
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,

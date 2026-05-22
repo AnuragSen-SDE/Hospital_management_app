@@ -1,5 +1,6 @@
 package com.learnng.HospitalManagement.prescription.entity;
 
+import com.learnng.HospitalManagement.medicine.entity.Medicine;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +16,15 @@ public class PrescriptionMedicine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String medicineName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Medicine medicine;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Prescription prescription;
+
+    private Integer quantity;
 
     @Column(nullable = false)
     private String dosage;
@@ -25,14 +33,8 @@ public class PrescriptionMedicine {
     private String frequency;
 
     @Column(nullable = false)
-    private String duration;
+    private String durationInDays;
 
     @Column(nullable = false)
-    private Double price;
-
-    private String instruction;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private Prescription prescription;
+    private Double unitPrice;
 }

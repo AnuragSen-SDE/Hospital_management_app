@@ -1,5 +1,11 @@
 package com.learnng.HospitalManagement.prescription.entity.dto;
 
+import com.learnng.HospitalManagement.medicine.entity.Medicine;
+import com.learnng.HospitalManagement.prescription.entity.Prescription;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -11,8 +17,14 @@ import lombok.Setter;
 @Setter
 public class PrescriptionMedicineDto {
 
-    @NotBlank
-    private String medicineName;
+    private Long id;
+
+    private Medicine medicine;
+
+    @NotNull
+    private Long prescriptionId;
+
+    private Integer quantity;
 
     @NotBlank
     private String dosage;
@@ -21,10 +33,8 @@ public class PrescriptionMedicineDto {
     private String frequency;
 
     @NotBlank
-    private String duration;
-
-    private String instruction;
+    private String durationInDays;
 
     @NotNull
-    private Double price;
+    private Double unitPrice;
 }
