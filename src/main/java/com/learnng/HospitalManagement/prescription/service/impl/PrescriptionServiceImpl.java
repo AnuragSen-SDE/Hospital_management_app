@@ -6,11 +6,13 @@ import com.learnng.HospitalManagement.appointment.service.AppointmentService;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
 import com.learnng.HospitalManagement.exception.custom.PrescriptionException;
+import com.learnng.HospitalManagement.medicine.entity.Medicine;
 import com.learnng.HospitalManagement.medicine.service.MedicineService;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.service.PatientService;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import com.learnng.HospitalManagement.prescription.entity.PrescriptionMedicine;
+import com.learnng.HospitalManagement.prescription.entity.dto.AddMedicineRequest;
 import com.learnng.HospitalManagement.prescription.entity.dto.PrescriptionDto;
 import com.learnng.HospitalManagement.prescription.mapper.PrescriptionMapper;
 import com.learnng.HospitalManagement.prescription.repository.PrescriptionRepository;
@@ -58,9 +60,25 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public void addMedicine(Long prescriptionId, Long medicineId) {
+    public void addMedicine(Long prescriptionId, AddMedicineRequest addMedicineRequest) {
         Prescription prescription = prescriptionRepository.findById(prescriptionId)
                 .orElseThrow(() -> new PrescriptionException("Prescription Not Found"));
+
+        Medicine medicine = medicineService.findMedicineById(addMedicineRequest.getMedicineId());
+
+        //create a perscriptionMedince entiy
+        PrescriptionMedicine prescriptionMedicine = PrescriptionMedicine.builder()
+                .medicine(medicine)
+                .prescription(prescription)
+                .frequency(addMedicineRequest.getFrequency())
+                .durationInDays(addMedicineRequest.getDurationInDays())
+                .dosage(addMedicineRequest.getDosages())
+                .unitPrice(medicine.getUnitPrice())
+                .build();
+
+        prescription.getPrescribedMedicine().add(prescriptionMedicine);
+
+        prescriptionRepository.save(prescription);
     }
 
 }
