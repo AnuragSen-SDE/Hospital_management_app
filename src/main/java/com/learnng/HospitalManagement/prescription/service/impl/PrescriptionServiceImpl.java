@@ -6,6 +6,7 @@ import com.learnng.HospitalManagement.appointment.service.AppointmentService;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
 import com.learnng.HospitalManagement.exception.custom.PrescriptionException;
+import com.learnng.HospitalManagement.medicine.service.MedicineService;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.service.PatientService;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
@@ -29,6 +30,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     private final DoctorService doctorService;
     private final PatientService patientService;
     private final AppointmentService appointmentService;
+    private final MedicineService medicineService;
 
     @Transactional
     @Override
@@ -53,6 +55,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         //Prescription prescription1 = prescriptionRepository.save(prescription);
         //System.out.println("prescription : " + prescription1);
         return prescriptionRepository.save(prescription);
+    }
+
+    @Override
+    public void addMedicine(Long prescriptionId, Long medicineId) {
+        Prescription prescription = prescriptionRepository.findById(prescriptionId)
+                .orElseThrow(() -> new PrescriptionException("Prescription Not Found"));
     }
 
 }

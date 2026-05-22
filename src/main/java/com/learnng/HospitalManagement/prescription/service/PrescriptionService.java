@@ -5,4 +5,5 @@ import com.learnng.HospitalManagement.prescription.entity.dto.PrescriptionDto;
 
 public interface PrescriptionService {
     Prescription registerPrescription(PrescriptionDto prescriptionDto);
+    void addMedicine(Long prescriptionId,Long medicineId);
 }
