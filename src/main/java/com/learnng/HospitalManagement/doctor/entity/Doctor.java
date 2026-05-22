@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.doctor.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.*;
@@ -51,4 +52,12 @@ public class Doctor {
     )
     @ToString.Exclude
     private Set<Prescription> prescriptions = new HashSet<>();
+
+    @OneToMany(
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true,
+            mappedBy = "doctor"
+    )
+    private Set<Billing> bills = new HashSet<>();
 }
