@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 
 import javax.print.Doc;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,7 +45,7 @@ public class Prescription {
             orphanRemoval = true,
             mappedBy = "prescription"
     )
-    private List<PrescriptionMedicine> prescribedMedicine;
+    private List<PrescriptionMedicine> prescribedMedicine = new ArrayList<>();
 
     private String note;
 

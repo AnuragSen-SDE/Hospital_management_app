@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.prescription.entity.dto;
 
 import com.learnng.HospitalManagement.medicine.entity.Medicine;
+import com.learnng.HospitalManagement.medicine.entity.dto.MedicineDto;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
@@ -19,7 +20,7 @@ public class PrescriptionMedicineDto {
 
     private Long id;
 
-    private Medicine medicine;
+    private MedicineDto medicine;
 
     @NotNull
     private Long prescriptionId;

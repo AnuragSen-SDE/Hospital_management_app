@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.exception.controller;
 
 import com.learnng.HospitalManagement.exception.custom.AppointmentException;
+import com.learnng.HospitalManagement.exception.custom.DoctorException;
 import com.learnng.HospitalManagement.exception.custom.InsuranceException;
 import com.learnng.HospitalManagement.exception.custom.PrescriptionException;
 import com.learnng.HospitalManagement.exception.entity.ErrorResponse;
@@ -70,6 +71,20 @@ public class GlobalExceptionHandler {
         ErrorResponse response = ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(appointmentException.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
+
+    }
+
+    @ExceptionHandler(DoctorException.class)
+    public ResponseEntity<ErrorResponse> handleDoctorExceptionHandler(
+            DoctorException doctorException
+    ) {
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(doctorException.getMessage())
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

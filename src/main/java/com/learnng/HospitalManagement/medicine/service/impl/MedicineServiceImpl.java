@@ -25,4 +25,9 @@ public class MedicineServiceImpl implements MedicineService {
                 () -> new AppointmentException("Medicine Not found Exception")
         );
     }
+
+    @Override
+    public Medicine saveMedicine(Medicine medicine) {
+        return medicineRepository.save(medicine);
+    }
 }

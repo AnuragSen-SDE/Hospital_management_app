@@ -4,6 +4,7 @@ import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.doctor.repository.DoctorRepository;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
+import com.learnng.HospitalManagement.exception.custom.DoctorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor getDoctorById(Long id) {
-        return doctorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Doctor Not Fount"));
+        return doctorRepository.findById(id).orElseThrow(() -> new DoctorException("Doctor Not Fount"));
     }
 
     @Override
