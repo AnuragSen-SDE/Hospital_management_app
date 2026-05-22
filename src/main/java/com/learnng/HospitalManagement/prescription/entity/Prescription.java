@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.prescription.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import jakarta.persistence.*;
@@ -50,5 +51,13 @@ public class Prescription {
     private String note;
 
     private LocalDateTime prescribedAt;
+
+    @OneToOne(
+            cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REMOVE},
+            mappedBy = "prescription",
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private Billing bill;
 
 }
