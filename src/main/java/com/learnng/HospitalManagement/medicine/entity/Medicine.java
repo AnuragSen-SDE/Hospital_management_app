@@ -22,8 +22,8 @@ public class Medicine {
     @Column(nullable = false)
     private Double unitPrice;
 
+    @Column(nullable = false)
     private String manufacturer;
 
     private Integer stockQuantity;
-
 }

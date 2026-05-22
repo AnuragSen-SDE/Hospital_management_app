@@ -26,5 +26,4 @@ public class MedicineDto {
 
     private Integer stockQuantity;
 
-
 }
