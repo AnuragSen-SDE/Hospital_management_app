@@ -6,4 +6,5 @@ import com.learnng.HospitalManagement.bill.entiy.dto.BillingDto;
 
 public interface BillingService {
     Billing generateBillingDetails(BillingDto billingDto);
+    Billing findBillingDetailsById(Long billingId);
 }

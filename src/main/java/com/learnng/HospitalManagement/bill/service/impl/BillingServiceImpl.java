@@ -10,6 +10,7 @@ import com.learnng.HospitalManagement.bill.repository.BillingRepository;
 import com.learnng.HospitalManagement.bill.service.BillingService;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
+import com.learnng.HospitalManagement.exception.custom.BillingException;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.service.PatientService;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
@@ -68,5 +69,12 @@ public class BillingServiceImpl implements BillingService {
 
 
         return billingRepository.save(billing);
+    }
+
+    @Override
+    public Billing findBillingDetailsById(Long billingId) {
+        return billingRepository.findById(billingId).orElseThrow(() ->
+                new BillingException("billing data not found")
+                );
     }
 }

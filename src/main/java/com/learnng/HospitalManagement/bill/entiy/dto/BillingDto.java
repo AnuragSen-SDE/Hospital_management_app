@@ -38,7 +38,7 @@ public class BillingDto {
 
     private double totalAmount;
 
-    private Set<BillingItem> billingItems;
+    private Set<BillingItemDto> billingItems;
 
     private BillingStatus billingStatus;
 
