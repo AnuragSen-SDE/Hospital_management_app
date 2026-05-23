@@ -32,9 +32,10 @@ public class PrescriptionMedicine {
     @Column(nullable = false)
     private String frequency;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "duration")
     private String durationInDays;
 
     @Column(nullable = false)
     private Double unitPrice;
+
 }
