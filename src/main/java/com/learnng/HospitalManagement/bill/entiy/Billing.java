@@ -47,6 +47,12 @@ public class Billing {
     @Column(nullable = false)
     private double totalAmount;
 
+    @Column(nullable = false)
+    private Double paidAmount = 0.0;
+
+    @Column(nullable = false)
+    private Double dueAmount;
+
     @OneToMany(
             cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST},
             mappedBy = "billing",

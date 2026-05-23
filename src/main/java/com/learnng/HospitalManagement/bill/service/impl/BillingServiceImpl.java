@@ -78,9 +78,10 @@ public class BillingServiceImpl implements BillingService {
 
         billing.setBillingItems(billingItems);
 
+        //calculating the total amount
         double totalAmount = billingItems.stream().mapToDouble(BillingItem::getTotalPrice).sum();
-
         billing.setTotalAmount(totalAmount);
+        billing.setDueAmount(totalAmount);
 
 
         return billingRepository.save(billing);
@@ -91,5 +92,10 @@ public class BillingServiceImpl implements BillingService {
         return billingRepository.findById(billingId).orElseThrow(() ->
                 new BillingException("billing data not found")
                 );
+    }
+
+    @Override
+    public Billing updateBillingDetails(Billing billing) {
+        return billingRepository.save(billing);
     }
 }

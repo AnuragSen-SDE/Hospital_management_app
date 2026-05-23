@@ -1,42 +1,37 @@
-package com.learnng.HospitalManagement.payment.entity;
+package com.learnng.HospitalManagement.payment.entity.dto;
 
 import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.payment.entity.type.PaymentMethod;
 import com.learnng.HospitalManagement.payment.entity.type.PaymentStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "payment")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+@Builder
+public class PaymentDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @NotNull( message = "billing Id is required")
+    private Long billingId;
+
+    @NotNull( message = "Payment method is required")
     private PaymentMethod paymentMethod;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @Column(nullable = false)
     private String transactionId;
 
     private LocalDateTime paidAt;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Billing billing;
-
-    @Column(nullable = false)
     private Double amount;
+
+
 }
