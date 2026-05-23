@@ -8,9 +8,12 @@ import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.autoconfigure.amqp.AbstractRabbitListenerContainerFactoryConfigurer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -50,7 +53,7 @@ public class Billing {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private Set<BillingItem> billingItems = new HashSet<>();
+    private List<BillingItem> billingItems = new ArrayList<>();
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

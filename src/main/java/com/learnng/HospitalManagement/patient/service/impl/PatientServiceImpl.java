@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.patient.service.impl;
 
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
+import com.learnng.HospitalManagement.exception.custom.PatientException;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.repository.PatientRepository;
 import com.learnng.HospitalManagement.patient.service.PatientService;
@@ -31,7 +32,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient registerPatient(Patient patient) {
-        if (patientRepository.existsByEmail(patient.getEmail())) throw new  IllegalArgumentException("Patient Already Exist with this email");
+        if (patientRepository.existsByEmail(patient.getEmail())) throw new PatientException("Patient Already Exist with this email");
         return patientRepository.save(patient);
     }
 
@@ -42,7 +43,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient getPatientById(Long id) {
-        return patientRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Patient Does not exist"));
+        return patientRepository.findById(id).orElseThrow(()-> new PatientException("Patient Does not exist"));
     }
 
     @Override

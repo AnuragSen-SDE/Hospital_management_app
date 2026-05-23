@@ -45,6 +45,9 @@ public class BillingServiceImpl implements BillingService {
         Appointment appointment = appointmentService.findAppointmentById(billingDto.getAppointmentId());
         Prescription prescription = prescriptionService.findPrescriptionById(billingDto.getPrescriptionId());
 
+        if (billingRepository.existsByPrescriptionId(prescription.getId()))
+            throw new BillingException("Bill Already exist for the given Prescription");
+
         Billing billing = Billing.builder()
                 .billingStatus(BillingStatus.PENDING)
                 .appointment(appointment)
@@ -53,9 +56,10 @@ public class BillingServiceImpl implements BillingService {
                 .prescription(prescription)
                 .build();
 
-        Set<BillingItem> billingItems =  prescription.getPrescribedMedicine().stream()
+        List<BillingItem> billingItems = new java.util.ArrayList<>(prescription.getPrescribedMedicine().stream()
                 .map(
                         (item) -> {
+                            System.out.println("unit price: " + item.getUnitPrice());
                             return BillingItem.builder()
                                     .itemName(item.getMedicine().getMedicineName())
                                     .unitPrice(item.getUnitPrice())
@@ -64,7 +68,18 @@ public class BillingServiceImpl implements BillingService {
                                     .billing(billing)
                                     .billingItemType(BillingItemType.MEDICINE)
                                     .build();
-                        }).collect(Collectors.toSet());
+                        }).toList());
+
+        //adding the consultant fee of doctor
+        billingItems.add(
+                0,
+                BillingItem.builder()
+                        .billingItemType(BillingItemType.CONSULTATION)
+                        .billing(billing)
+                        .unitPrice(doctor.getConsultationFee())
+                        .totalPrice(doctor.getConsultationFee())
+                        .itemName("Consultant Fee")
+                .build());
 
         billing.setBillingItems(billingItems);
 
