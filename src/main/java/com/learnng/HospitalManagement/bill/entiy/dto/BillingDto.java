@@ -1,15 +1,9 @@
 package com.learnng.HospitalManagement.bill.entiy.dto;
 
-import com.learnng.HospitalManagement.appointment.entity.Appointment;
-import com.learnng.HospitalManagement.bill.entiy.BillingItem;
-import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
-import com.learnng.HospitalManagement.bill.entiy.type.PaymentMethod;
-import com.learnng.HospitalManagement.doctor.entity.Doctor;
-import com.learnng.HospitalManagement.patient.entity.Patient;
-import jakarta.persistence.*;
+import com.learnng.HospitalManagement.payment.entity.type.PaymentStatus;
+import com.learnng.HospitalManagement.payment.entity.type.PaymentMethod;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.validator.constraints.LuhnCheck;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -40,7 +34,7 @@ public class BillingDto {
 
     private Set<BillingItemDto> billingItems;
 
-    private BillingStatus billingStatus;
+    private PaymentStatus paymentStatus;
 
     private PaymentMethod paymentMethod;
 

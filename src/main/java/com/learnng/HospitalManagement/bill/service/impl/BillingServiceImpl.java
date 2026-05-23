@@ -6,7 +6,7 @@ import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.bill.entiy.BillingItem;
 import com.learnng.HospitalManagement.bill.entiy.dto.BillingDto;
 import com.learnng.HospitalManagement.bill.entiy.type.BillingItemType;
-import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
+import com.learnng.HospitalManagement.payment.entity.type.PaymentStatus;
 import com.learnng.HospitalManagement.bill.repository.BillingRepository;
 import com.learnng.HospitalManagement.bill.service.BillingService;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
@@ -15,16 +15,12 @@ import com.learnng.HospitalManagement.exception.custom.BillingException;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.service.PatientService;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
-import com.learnng.HospitalManagement.prescription.entity.PrescriptionMedicine;
 import com.learnng.HospitalManagement.prescription.service.PrescriptionService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +45,6 @@ public class BillingServiceImpl implements BillingService {
             throw new BillingException("Bill Already exist for the given Prescription");
 
         Billing billing = Billing.builder()
-                .billingStatus(BillingStatus.PENDING)
                 .appointment(appointment)
                 .patient(patient)
                 .doctor(doctor)
