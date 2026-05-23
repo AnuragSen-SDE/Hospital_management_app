@@ -1,4 +1,4 @@
-package com.learnng.HospitalManagement.bill.entiy.type;
+package com.learnng.HospitalManagement.payment.entity.type;
 
 public enum PaymentMethod {
     CASH,

@@ -1,8 +1,9 @@
 package com.learnng.HospitalManagement.bill.entiy;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
-import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
-import com.learnng.HospitalManagement.bill.entiy.type.PaymentMethod;
+import com.learnng.HospitalManagement.payment.entity.Payment;
+import com.learnng.HospitalManagement.payment.entity.type.PaymentStatus;
+import com.learnng.HospitalManagement.payment.entity.type.PaymentMethod;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
@@ -10,7 +11,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,25 +47,31 @@ public class Billing {
     @Column(nullable = false)
     private double totalAmount;
 
+    @Column(nullable = false)
+    private Double paidAmount = 0.0;
+
+    @Column(nullable = false)
+    private Double dueAmount;
+
     @OneToMany(
             cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST},
             mappedBy = "billing",
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private Set<BillingItem> billingItems = new HashSet<>();
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private BillingStatus billingStatus;
-
-    @Column(nullable = true)
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private List<BillingItem> billingItems = new ArrayList<>();
 
     private LocalDateTime paidAt;
 
     private String Note;
+
+    @OneToMany(
+            cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST},
+            mappedBy = "billing",
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private Set<Payment> payments = new HashSet<>();
 
 
 }
