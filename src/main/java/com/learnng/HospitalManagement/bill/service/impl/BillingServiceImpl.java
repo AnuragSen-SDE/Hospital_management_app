@@ -5,6 +5,7 @@ import com.learnng.HospitalManagement.appointment.service.AppointmentService;
 import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.bill.entiy.BillingItem;
 import com.learnng.HospitalManagement.bill.entiy.dto.BillingDto;
+import com.learnng.HospitalManagement.bill.entiy.type.BillingItemType;
 import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
 import com.learnng.HospitalManagement.bill.repository.BillingRepository;
 import com.learnng.HospitalManagement.bill.service.BillingService;
@@ -17,6 +18,8 @@ import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import com.learnng.HospitalManagement.prescription.entity.PrescriptionMedicine;
 import com.learnng.HospitalManagement.prescription.service.PrescriptionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BillingServiceImpl implements BillingService {
 
     private final BillingRepository billingRepository;
@@ -58,6 +62,7 @@ public class BillingServiceImpl implements BillingService {
                                     .quantity(item.getQuantity())
                                     .totalPrice(item.getUnitPrice() * item.getQuantity())
                                     .billing(billing)
+                                    .billingItemType(BillingItemType.MEDICINE)
                                     .build();
                         }).collect(Collectors.toSet());
 

@@ -10,12 +10,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Billing {
@@ -49,7 +50,7 @@ public class Billing {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private Set<BillingItem> billingItems;
+    private Set<BillingItem> billingItems = new HashSet<>();
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

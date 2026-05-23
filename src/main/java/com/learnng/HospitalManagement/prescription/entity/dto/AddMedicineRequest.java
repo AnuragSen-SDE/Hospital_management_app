@@ -24,6 +24,7 @@ public class AddMedicineRequest {
     private String frequency;
 
     @NotBlank
+
     private String durationInDays;
 
 }
