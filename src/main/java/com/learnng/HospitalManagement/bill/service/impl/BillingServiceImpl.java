@@ -6,6 +6,7 @@ import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.bill.entiy.BillingItem;
 import com.learnng.HospitalManagement.bill.entiy.dto.BillingDto;
 import com.learnng.HospitalManagement.bill.entiy.type.BillingItemType;
+import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
 import com.learnng.HospitalManagement.payment.entity.type.PaymentStatus;
 import com.learnng.HospitalManagement.bill.repository.BillingRepository;
 import com.learnng.HospitalManagement.bill.service.BillingService;
@@ -19,6 +20,7 @@ import com.learnng.HospitalManagement.prescription.service.PrescriptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class BillingServiceImpl implements BillingService {
     private final AppointmentService appointmentService;
     private final PrescriptionService prescriptionService;
 
+    @Transactional
     @Override
     public Billing generateBillingDetails(BillingDto billingDto) {
 
@@ -48,6 +51,7 @@ public class BillingServiceImpl implements BillingService {
                 .appointment(appointment)
                 .patient(patient)
                 .doctor(doctor)
+                .billingStatus(BillingStatus.PENDING)
                 .prescription(prescription)
                 .build();
 
