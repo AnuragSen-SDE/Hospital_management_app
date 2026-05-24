@@ -3,6 +3,7 @@ package com.learnng.HospitalManagement.payment.service.impl;
 import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
 import com.learnng.HospitalManagement.bill.service.BillingService;
+import com.learnng.HospitalManagement.exception.custom.PaymentException;
 import com.learnng.HospitalManagement.payment.entity.Payment;
 import com.learnng.HospitalManagement.payment.entity.dto.PaymentDto;
 import com.learnng.HospitalManagement.payment.entity.type.PaymentMethod;
@@ -27,6 +28,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment processPayment(PaymentDto paymentDto) {
         Billing billing = billingService.findBillingDetailsById(paymentDto.getBillingId());
+
+        if (billing.getDueAmount() < paymentDto.getAmount())
+            throw new  PaymentException("Payment proceed Due Amount");
 
         Payment payment = Payment.builder()
                 .paymentMethod(paymentDto.getPaymentMethod())
