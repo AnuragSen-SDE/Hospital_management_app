@@ -27,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = Payment.builder()
                 .paymentMethod(paymentDto.getPaymentMethod())
+                .amount(paymentDto.getAmount())
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();
 
@@ -37,7 +38,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         //in future if the payable about < paid amount then amount will be added to wallet
         //update the billing
-        //billing.setTotalAmount(billing.getTotalAmount() - paymentDto.getAmout());
+        billing.setDueAmount(billing.getTotalAmount() - paymentDto.getAmount());
+        billing.setPaidAmount(paymentDto.getAmount());
         billingService.updateBillingDetails(billing);
 
         //set the billing to the payment entity
