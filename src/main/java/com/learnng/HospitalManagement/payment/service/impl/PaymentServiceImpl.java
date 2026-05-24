@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         //in future if the payable about < paid amount then amount will be added to wallet
         //update the billing
-        billing.setDueAmount(billing.getTotalAmount() - paymentDto.getAmount());
+        billing.setDueAmount(billing.getDueAmount() - paymentDto.getAmount());
         billing.setPaidAmount(paymentDto.getAmount() + billing.getPaidAmount());
         billingService.updateBillingDetails(billing);
 

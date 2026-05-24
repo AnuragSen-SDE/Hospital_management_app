@@ -49,7 +49,7 @@ public class Billing {
     private double totalAmount;
 
     @Column(nullable = false)
-    private Double paidAmount = 0.0;
+    private Double paidAmount;
 
     @Column(nullable = false)
     private Double dueAmount;

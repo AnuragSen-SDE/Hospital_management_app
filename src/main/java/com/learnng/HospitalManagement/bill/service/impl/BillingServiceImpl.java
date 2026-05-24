@@ -51,6 +51,7 @@ public class BillingServiceImpl implements BillingService {
                 .appointment(appointment)
                 .patient(patient)
                 .doctor(doctor)
+                .paidAmount(0.0)
                 .billingStatus(BillingStatus.PENDING)
                 .prescription(prescription)
                 .build();
