@@ -1,5 +1,6 @@
 package com.learnng.HospitalManagement.appointment.entity;
 
+import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.medicine.entity.Medicine;
@@ -45,6 +46,13 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @OneToOne(
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true,
+            mappedBy = "appointment"
+    )
+    private Billing bill;
 
 }
 

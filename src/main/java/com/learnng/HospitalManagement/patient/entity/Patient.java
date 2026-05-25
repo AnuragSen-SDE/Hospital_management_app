@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.patient.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.insurance.entiy.Insurance;
 import com.learnng.HospitalManagement.patient.entity.type.BloodGroup;
 import com.learnng.HospitalManagement.patient.entity.type.GenderType;
@@ -92,4 +93,12 @@ public class Patient {
     private String emergencyContact;
 
     private LocalDate birthDate;
+
+    @OneToMany(
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST},
+            orphanRemoval = true,
+            fetch = FetchType.LAZY,
+            mappedBy = "patient"
+    )
+    private Set<Billing> bills = new HashSet<>();
 }

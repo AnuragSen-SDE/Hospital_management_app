@@ -1,9 +1,11 @@
 package com.learnng.HospitalManagement.doctor.entity;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,11 +24,16 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String fullName;
     private String specialization;
     private String qualification;
     private String yearsOfExperience;
+
+    @Column(nullable = false)
     private String phoneNumber;
+
+    @Column(nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -51,4 +58,16 @@ public class Doctor {
     )
     @ToString.Exclude
     private Set<Prescription> prescriptions = new HashSet<>();
+
+    @OneToMany(
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true,
+            mappedBy = "doctor"
+    )
+    private Set<Billing> bills = new HashSet<>();
+
+    @Column(nullable = false)
+    @Min(0)
+    private Double consultationFee;
 }

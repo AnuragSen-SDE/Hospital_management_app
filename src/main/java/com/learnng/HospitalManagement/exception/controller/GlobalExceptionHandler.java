@@ -1,9 +1,6 @@
 package com.learnng.HospitalManagement.exception.controller;
 
-import com.learnng.HospitalManagement.exception.custom.AppointmentException;
-import com.learnng.HospitalManagement.exception.custom.DoctorException;
-import com.learnng.HospitalManagement.exception.custom.InsuranceException;
-import com.learnng.HospitalManagement.exception.custom.PrescriptionException;
+import com.learnng.HospitalManagement.exception.custom.*;
 import com.learnng.HospitalManagement.exception.entity.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,6 +115,59 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(response);
 
+    }
+
+    @ExceptionHandler(BillingException.class)
+    public ResponseEntity<ErrorResponse> handleBillingException(
+            BillingException exception
+    ) {
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
+
+    }
+
+    @ExceptionHandler(PatientException.class)
+    public ResponseEntity<ErrorResponse> handlePatientException(
+            PatientException exception
+    ) {
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
+
+    }
+
+    @ExceptionHandler(PaymentException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentException(
+            PaymentException exception
+    ){
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
+    @ExceptionHandler(MedicineException.class)
+    public ResponseEntity<ErrorResponse> handleMedicalException(
+            MedicineException exception
+    ) {
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
     }
 
 
