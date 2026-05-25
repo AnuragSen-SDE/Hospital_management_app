@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.bill.entiy;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
+import com.learnng.HospitalManagement.bill.entiy.type.BillingStatus;
 import com.learnng.HospitalManagement.payment.entity.Payment;
 import com.learnng.HospitalManagement.payment.entity.type.PaymentStatus;
 import com.learnng.HospitalManagement.payment.entity.type.PaymentMethod;
@@ -48,10 +49,14 @@ public class Billing {
     private double totalAmount;
 
     @Column(nullable = false)
-    private Double paidAmount = 0.0;
+    private Double paidAmount;
 
     @Column(nullable = false)
     private Double dueAmount;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private BillingStatus billingStatus;
 
     @OneToMany(
             cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST},

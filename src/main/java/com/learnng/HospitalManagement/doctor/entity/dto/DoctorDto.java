@@ -47,4 +47,8 @@ public class DoctorDto {
     @Pattern(regexp = "^[A-Z][0-9]{3}$", message = "Invalid Room number")
     private String roomNumber;
 
+    @NotNull
+    @Min(0)
+    private Double consultationFee;
+
 }

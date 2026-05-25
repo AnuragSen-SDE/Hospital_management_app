@@ -1,7 +1,6 @@
 package com.learnng.HospitalManagement.prescription.service.impl;
 
 import com.learnng.HospitalManagement.appointment.entity.Appointment;
-import com.learnng.HospitalManagement.appointment.entity.AppointmentStatus;
 import com.learnng.HospitalManagement.appointment.service.AppointmentService;
 import com.learnng.HospitalManagement.doctor.entity.Doctor;
 import com.learnng.HospitalManagement.doctor.service.DoctorService;
@@ -84,7 +83,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
         //update the stock quantity
         medicine.setStockQuantity(medicine.getStockQuantity() - addMedicineRequest.getQuantity());
-        medicineService.saveMedicine(medicine);
+        medicineService.updateMedicine(medicine);
 
         //update the medicine in the prescription
         prescription.getPrescribedMedicine().add(prescriptionMedicine);

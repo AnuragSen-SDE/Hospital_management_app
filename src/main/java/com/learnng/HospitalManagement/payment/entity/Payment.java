@@ -28,7 +28,7 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String transactionId;
 
     private LocalDateTime paidAt;
