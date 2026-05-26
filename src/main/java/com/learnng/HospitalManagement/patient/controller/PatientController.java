@@ -8,14 +8,14 @@ import com.learnng.HospitalManagement.patient.service.PatientService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +38,19 @@ public class PatientController {
                                 patientMapper.toPatientDto(patient)
                         )
                 );
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllPatient() {
+        List<PatientDto> patientDtos =  patientService.getAllPatient().stream().map(patientMapper::toPatientDto).toList();
+
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .status(HttpStatus.OK.value())
+                        .message("All Patient data retrived successfully")
+                        .data(patientDtos)
+                        .build()
+        );
     }
 
 }

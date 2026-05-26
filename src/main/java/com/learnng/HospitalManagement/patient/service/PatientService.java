@@ -18,4 +18,5 @@ public interface PatientService {
             AvailableDays appointmentDay,
             LocalTime appointmentTime
     );
+
 }
