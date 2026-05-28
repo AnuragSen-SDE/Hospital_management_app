@@ -4,6 +4,7 @@ import com.learnng.HospitalManagement.appointment.entity.Appointment;
 import com.learnng.HospitalManagement.bill.entiy.Billing;
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.prescription.entity.Prescription;
+import com.learnng.HospitalManagement.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
@@ -70,4 +71,11 @@ public class Doctor {
     @Column(nullable = false)
     @Min(0)
     private Double consultationFee;
+
+    @OneToOne(
+            cascade = {CascadeType.REFRESH,CascadeType.MERGE,CascadeType.MERGE,CascadeType.PERSIST},
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private User user;
 }
