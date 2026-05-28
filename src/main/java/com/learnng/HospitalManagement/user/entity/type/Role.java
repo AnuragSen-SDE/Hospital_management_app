@@ -1,8 +1,8 @@
 package com.learnng.HospitalManagement.user.entity.type;
 
 public enum Role {
-    ADMIN,
-    PATIENT,
-    DOCTOR,
-    RECEPTIONIST
+    ROLE_ADMIN,
+    ROLE_PATIENT,
+    ROLE_DOCTOR,
+    ROLE_RECEPTIONIST
 }
