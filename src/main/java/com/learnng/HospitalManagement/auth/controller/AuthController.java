@@ -11,16 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<ApiResponse> loginRequest(
             @Valid @RequestBody LoginRequestdto loginRequest
             ) {
+        System.out.println("request at controller");
         authService.login(loginRequest);
         return ResponseEntity.ok(
                 ApiResponse.builder()
