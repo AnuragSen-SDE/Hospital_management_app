@@ -1,7 +1,7 @@
 package com.learnng.HospitalManagement.auth.service;
 
-import com.learnng.HospitalManagement.auth.entity.LoginRequest;
+import com.learnng.HospitalManagement.auth.entity.LoginRequestdto;
 
 public interface AuthService {
-    void login(LoginRequest request);
+    void login(LoginRequestdto request);
 }

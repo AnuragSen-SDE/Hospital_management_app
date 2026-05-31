@@ -2,6 +2,7 @@ package com.learnng.HospitalManagement.security.entity;
 
 import com.learnng.HospitalManagement.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@ToString
 @RequiredArgsConstructor
 public class CustomeUserDetails implements UserDetails {
 
