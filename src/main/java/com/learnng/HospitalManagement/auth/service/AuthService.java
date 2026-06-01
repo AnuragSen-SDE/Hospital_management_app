@@ -6,5 +6,5 @@ import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 
 public interface AuthService {
     void login(LoginRequestdto request);
-    SignupResponseDto sigUp (SignupRequestDto requestDto );
+    SignupResponseDto signUp (SignupRequestDto requestDto );
 }

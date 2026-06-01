@@ -1,6 +1,8 @@
 package com.learnng.HospitalManagement.auth.controller;
 
 import com.learnng.HospitalManagement.auth.entity.LoginRequestdto;
+import com.learnng.HospitalManagement.auth.entity.SignupRequestDto;
+import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 import com.learnng.HospitalManagement.auth.service.AuthService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
 import jakarta.validation.Valid;
@@ -29,6 +31,21 @@ public class AuthController {
                         .status(HttpStatus.OK.value())
                         .build()
         );
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse> signupRequest(
+            @Valid @RequestBody SignupRequestDto signupRequestDto
+            ){
+        SignupResponseDto responseDto = authService.signUp(signupRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(
+                        ApiResponse.builder()
+                                .message("Registered Successfully")
+                                .status(HttpStatus.CREATED.value())
+                                .data(responseDto)
+                                .build()
+                );
     }
 
     @GetMapping("/ping")
