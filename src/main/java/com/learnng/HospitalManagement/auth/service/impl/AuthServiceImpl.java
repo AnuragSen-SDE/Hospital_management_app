@@ -7,12 +7,14 @@ import com.learnng.HospitalManagement.auth.service.AuthService;
 import com.learnng.HospitalManagement.exception.custom.UserException;
 import com.learnng.HospitalManagement.security.entity.CustomeUserDetails;
 import com.learnng.HospitalManagement.user.entity.User;
+import com.learnng.HospitalManagement.user.entity.type.Role;
 import com.learnng.HospitalManagement.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +23,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void login(LoginRequestdto request) {
@@ -44,13 +47,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public SignupResponseDto sigUp(SignupRequestDto requestDto) {
-        if (userService.existByEmail(requestDto.getEmail())) throw new UserException("User Already Exist With this email ");
+    public SignupResponseDto signUp(SignupRequestDto requestDto) {
 
-//        User user = User.builder()
-//                .email(requestDto.getEmail())
-//                .
-//                .build();
-        return null;
+        if (userService.existsByEmail(requestDto.getEmail())) throw new UserException("User Already Exist With this email ");
+
+        User user =  userService.saveUser(User.builder()
+                .email(requestDto.getEmail())
+                .password(passwordEncoder.encode(requestDto.getPassword()))
+                        .isActive(true)
+                .build());
+
+        return SignupResponseDto.builder()
+                .email(user.getEmail())
+                .role(Role.ROLE_PATIENT)
+                .build();
     }
 }
