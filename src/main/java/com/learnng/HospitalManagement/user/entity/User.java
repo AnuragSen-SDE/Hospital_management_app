@@ -3,16 +3,14 @@ package com.learnng.HospitalManagement.user.entity;
 import com.learnng.HospitalManagement.user.entity.type.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class User {
 
     @Id
