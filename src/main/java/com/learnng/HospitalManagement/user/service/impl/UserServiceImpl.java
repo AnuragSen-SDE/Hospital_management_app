@@ -5,11 +5,13 @@ import com.learnng.HospitalManagement.user.entity.User;
 import com.learnng.HospitalManagement.user.repository.UserRepository;
 import com.learnng.HospitalManagement.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        log.debug("signup request in contrller");
         return userRepository.save(user);
     }
 }

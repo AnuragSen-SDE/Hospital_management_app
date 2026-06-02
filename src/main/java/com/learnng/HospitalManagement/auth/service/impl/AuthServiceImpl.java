@@ -10,6 +10,7 @@ import com.learnng.HospitalManagement.user.entity.User;
 import com.learnng.HospitalManagement.user.entity.type.Role;
 import com.learnng.HospitalManagement.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
@@ -48,14 +50,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SignupResponseDto signUp(SignupRequestDto requestDto) {
-
+        log.debug("signup request in contrller");
         if (userService.existsByEmail(requestDto.getEmail())) throw new UserException("User Already Exist With this email ");
 
         User user =  userService.saveUser(User.builder()
                 .email(requestDto.getEmail())
                 .password(passwordEncoder.encode(requestDto.getPassword()))
                         .isActive(true)
-                .build());
+                        .role(Role.ROLE_PATIENT)
+                .build()
+        );
 
         return SignupResponseDto.builder()
                 .email(user.getEmail())

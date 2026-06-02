@@ -7,6 +7,7 @@ import com.learnng.HospitalManagement.auth.service.AuthService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -37,6 +39,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse> signupRequest(
             @Valid @RequestBody SignupRequestDto signupRequestDto
             ){
+        log.debug("signup request in contrller");
         SignupResponseDto responseDto = authService.signUp(signupRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
