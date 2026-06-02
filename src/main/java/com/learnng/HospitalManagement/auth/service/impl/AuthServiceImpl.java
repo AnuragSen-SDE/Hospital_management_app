@@ -71,4 +71,11 @@ public class AuthServiceImpl implements AuthService {
                 .role(Role.ROLE_PATIENT)
                 .build();
     }
+
+    @Override
+    public String getUserName(String token) {
+        return jwtService.extractUserName(token);
+    }
+
+
 }

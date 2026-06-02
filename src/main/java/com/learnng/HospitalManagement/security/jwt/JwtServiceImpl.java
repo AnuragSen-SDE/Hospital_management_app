@@ -33,6 +33,26 @@ public class JwtServiceImpl implements JwtService {
         return createToken(map,userDetails);
     }
 
+    @Override
+    public boolean isTokenValid(String token) {
+        return false;
+    }
+
+    @Override
+    public boolean isTokenExpired(String token) {
+        Jwts.parser().setSigningKey(getSiningKey()).build().parseClaimsJws().
+        return false;
+    }
+
+    @Override
+    public String extractUserName(String token) {
+        return Jwts.parser().setSigningKey(getSiningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
     private String createToken(Map<String ,Object> claims , UserDetails userDetails){
         return Jwts.builder()
                 .setClaims(claims)

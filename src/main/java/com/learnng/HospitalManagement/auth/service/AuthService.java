@@ -7,4 +7,5 @@ import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 public interface AuthService {
     void login(LoginRequestdto request);
     SignupResponseDto signUp (SignupRequestDto requestDto );
+    String getUserName(String token );
 }

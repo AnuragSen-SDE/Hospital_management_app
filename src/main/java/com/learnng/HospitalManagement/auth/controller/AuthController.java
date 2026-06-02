@@ -51,8 +51,12 @@ public class AuthController {
                 );
     }
 
-    @GetMapping("/ping")
-    public String ping() {
-        return "working";
+    @GetMapping("/ping/{token}")
+    public String ping(
+            @PathVariable(name = "token") String token
+    ) {
+        String userName =  authService.getUserName(token);
+        log.debug("userName form token: " + userName);
+        return userName;
     }
 }
