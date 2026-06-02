@@ -5,8 +5,10 @@ import com.learnng.HospitalManagement.exception.custom.PatientException;
 import com.learnng.HospitalManagement.patient.entity.Patient;
 import com.learnng.HospitalManagement.patient.repository.PatientRepository;
 import com.learnng.HospitalManagement.patient.service.PatientService;
+import com.learnng.HospitalManagement.security.entity.CustomeUserDetails;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,7 +34,10 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient registerPatient(Patient patient) {
-        if (patientRepository.existsByEmail(patient.getEmail())) throw new PatientException("Patient Already Exist with this email");
+
+        CustomeUserDetails userDetails = (CustomeUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (patientRepository.existsByEmail(userDetails.getUsername())) throw new PatientException("Patient Already Exist with this email");
+        patient.setEmail(userDetails.getUsername());
         return patientRepository.save(patient);
     }
 
