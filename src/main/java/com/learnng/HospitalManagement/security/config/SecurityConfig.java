@@ -1,5 +1,6 @@
 package com.learnng.HospitalManagement.security.config;
 
+import com.learnng.HospitalManagement.security.jwt.JwtAuthenticationFilter;
 import com.learnng.HospitalManagement.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     //private final PasswordEncoder passwordEncoder;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -34,6 +36,7 @@ public class SecurityConfig {
                                 auth
                                         .requestMatchers("/api/v1/auth/**").permitAll()
                                         .anyRequest().authenticated()
+
                         );
 
         return http.build();
