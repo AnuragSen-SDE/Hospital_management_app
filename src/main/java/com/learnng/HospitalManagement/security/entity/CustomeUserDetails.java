@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@ToString
 @RequiredArgsConstructor
 public class CustomeUserDetails implements UserDetails {
 
@@ -54,4 +53,10 @@ public class CustomeUserDetails implements UserDetails {
     }
 
     public Role getRole() { return user.getRole();}
+
+    @Override
+    public String toString() {
+        return "UserName: " + user.getEmail() + " password : " + user.getPassword() + " IsUserActive : " + user.getIsActive() +
+                " User role : " + user.getRole();
+    }
 }

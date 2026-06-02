@@ -6,6 +6,7 @@ import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 import com.learnng.HospitalManagement.auth.service.AuthService;
 import com.learnng.HospitalManagement.exception.custom.UserException;
 import com.learnng.HospitalManagement.security.entity.CustomeUserDetails;
+import com.learnng.HospitalManagement.security.jwt.JwtService;
 import com.learnng.HospitalManagement.user.entity.User;
 import com.learnng.HospitalManagement.user.entity.type.Role;
 import com.learnng.HospitalManagement.user.service.UserService;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public void login(LoginRequestdto request) {
@@ -39,9 +42,11 @@ public class AuthServiceImpl implements AuthService {
             ));
 
             CustomeUserDetails userDetails = (CustomeUserDetails) authentication.getPrincipal();
-            System.out.println("Login User Detalis "+userDetails);
+            System.out.println("Login User Detalis "+ userDetails);
+            String token = jwtService.generateToken(userDetails);
+            log.debug(" token generated: " + token, "");
         }
-        catch(Exception ex) {
+        catch(AuthenticationException ex) {
             System.out.println("exception caught at service");
             ex.printStackTrace();
             throw new UserException("Invalid Credentials");
