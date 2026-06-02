@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.auth.service.impl;
 
 import com.learnng.HospitalManagement.auth.entity.LoginRequestdto;
+import com.learnng.HospitalManagement.auth.entity.LoginResponseDto;
 import com.learnng.HospitalManagement.auth.entity.SignupRequestDto;
 import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 import com.learnng.HospitalManagement.auth.service.AuthService;
@@ -31,20 +32,23 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
-    public void login(LoginRequestdto request) {
+    public LoginResponseDto login(LoginRequestdto request) {
 
 
         try {
-            System.out.println("request at service");
+            //System.out.println("request at service");
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getEmail(),
                     request.getPassword()
             ));
 
             CustomeUserDetails userDetails = (CustomeUserDetails) authentication.getPrincipal();
-            System.out.println("Login User Detalis "+ userDetails);
+            //System.out.println("Login User Detalis "+ userDetails);
             String token = jwtService.generateToken(userDetails);
-            log.debug(" token generated: " + token, "");
+            //log.debug(" token generated: " + token, "");
+            return LoginResponseDto.builder()
+                    .jwtToke(token)
+                    .build();
         }
         catch(AuthenticationException ex) {
             System.out.println("exception caught at service");

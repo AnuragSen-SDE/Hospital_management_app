@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.auth.controller;
 
 import com.learnng.HospitalManagement.auth.entity.LoginRequestdto;
+import com.learnng.HospitalManagement.auth.entity.LoginResponseDto;
 import com.learnng.HospitalManagement.auth.entity.SignupRequestDto;
 import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 import com.learnng.HospitalManagement.auth.service.AuthService;
@@ -26,11 +27,12 @@ public class AuthController {
             @Valid @RequestBody LoginRequestdto loginRequest
             ) {
         System.out.println("request at controller");
-        authService.login(loginRequest);
+        LoginResponseDto responseDto = authService.login(loginRequest);
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .message("Login Successfully")
                         .status(HttpStatus.OK.value())
+                        .data(responseDto)
                         .build()
         );
     }

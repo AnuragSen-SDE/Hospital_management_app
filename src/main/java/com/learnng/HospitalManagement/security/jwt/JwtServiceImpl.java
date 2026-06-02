@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.security.jwt;
 
 import com.learnng.HospitalManagement.security.entity.CustomeUserDetails;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,22 +35,26 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token) {
-        return false;
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        Claims claims = extractAllClaims(token);
+        return !claims.getExpiration()
+                .before(new Date())
+                && claims
+                .getSubject()
+                .equals(userDetails.getUsername());
     }
 
     @Override
     public boolean isTokenExpired(String token) {
-        Jwts.parser().setSigningKey(getSiningKey()).build().parseClaimsJws().
-        return false;
+        return extractAllClaims(token)
+                .getExpiration()
+                .before(new Date());
     }
+
 
     @Override
     public String extractUserName(String token) {
-        return Jwts.parser().setSigningKey(getSiningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
+        return extractAllClaims(token)
                 .getSubject();
     }
 
@@ -59,11 +64,16 @@ public class JwtServiceImpl implements JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSiningKey())
+                .signWith(getSigningKey())
                 .compact();
     }
 
-    private SecretKey getSiningKey() {
+    private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private Claims extractAllClaims( String token ) {
+        return Jwts.parser().setSigningKey(getSigningKey()).build().parseSignedClaims(token)
+                .getBody();
     }
 }
