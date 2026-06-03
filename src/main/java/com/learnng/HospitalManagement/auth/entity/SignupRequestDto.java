@@ -21,6 +21,4 @@ public class SignupRequestDto {
     @NotBlank(message = "Password can't be empty")
     private String password;
 
-    @NotBlank(message = "Role Can't be empyt")
-    private Role role;
 }

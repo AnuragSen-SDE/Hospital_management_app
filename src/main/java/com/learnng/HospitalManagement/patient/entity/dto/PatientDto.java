@@ -27,10 +27,6 @@ public class PatientDto {
     @Max(120)
     private Integer age;
 
-    @NotBlank
-    @Email
-    private String email;
-
     @Past
     private LocalDate birthDate;
 

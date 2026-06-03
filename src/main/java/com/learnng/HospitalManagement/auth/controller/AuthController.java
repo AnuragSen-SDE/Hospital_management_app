@@ -1,12 +1,14 @@
 package com.learnng.HospitalManagement.auth.controller;
 
 import com.learnng.HospitalManagement.auth.entity.LoginRequestdto;
+import com.learnng.HospitalManagement.auth.entity.LoginResponseDto;
 import com.learnng.HospitalManagement.auth.entity.SignupRequestDto;
 import com.learnng.HospitalManagement.auth.entity.SignupResponseDto;
 import com.learnng.HospitalManagement.auth.service.AuthService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -24,11 +27,12 @@ public class AuthController {
             @Valid @RequestBody LoginRequestdto loginRequest
             ) {
         System.out.println("request at controller");
-        authService.login(loginRequest);
+        LoginResponseDto responseDto = authService.login(loginRequest);
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .message("Login Successfully")
                         .status(HttpStatus.OK.value())
+                        .data(responseDto)
                         .build()
         );
     }
@@ -37,6 +41,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse> signupRequest(
             @Valid @RequestBody SignupRequestDto signupRequestDto
             ){
+        log.debug("signup request in contrller");
         SignupResponseDto responseDto = authService.signUp(signupRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
@@ -48,8 +53,12 @@ public class AuthController {
                 );
     }
 
-    @GetMapping("/ping")
-    public String ping() {
-        return "working";
+    @GetMapping("/ping/{token}")
+    public String ping(
+            @PathVariable(name = "token") String token
+    ) {
+        String userName =  authService.getUserName(token);
+        log.debug("userName form token: " + userName);
+        return userName;
     }
 }

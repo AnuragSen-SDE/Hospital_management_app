@@ -1,5 +1,6 @@
 package com.learnng.HospitalManagement.security.config;
 
+import com.learnng.HospitalManagement.security.jwt.JwtAuthenticationFilter;
 import com.learnng.HospitalManagement.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +23,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     //private final PasswordEncoder passwordEncoder;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -34,7 +37,9 @@ public class SecurityConfig {
                                 auth
                                         .requestMatchers("/api/v1/auth/**").permitAll()
                                         .anyRequest().authenticated()
-                        );
+
+                        )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
 

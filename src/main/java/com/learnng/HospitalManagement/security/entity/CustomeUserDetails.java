@@ -1,6 +1,7 @@
 package com.learnng.HospitalManagement.security.entity;
 
 import com.learnng.HospitalManagement.user.entity.User;
+import com.learnng.HospitalManagement.user.entity.type.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@ToString
 @RequiredArgsConstructor
 public class CustomeUserDetails implements UserDetails {
 
@@ -50,5 +50,13 @@ public class CustomeUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.getIsActive();//UserDetails.super.isEnabled();
+    }
+
+    public Role getRole() { return user.getRole();}
+
+    @Override
+    public String toString() {
+        return "UserName: " + user.getEmail() + " password : " + user.getPassword() + " IsUserActive : " + user.getIsActive() +
+                " User role : " + user.getRole();
     }
 }

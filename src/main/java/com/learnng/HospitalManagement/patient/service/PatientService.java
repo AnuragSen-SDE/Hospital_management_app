@@ -2,6 +2,7 @@ package com.learnng.HospitalManagement.patient.service;
 
 import com.learnng.HospitalManagement.doctor.entity.type.AvailableDays;
 import com.learnng.HospitalManagement.patient.entity.Patient;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface PatientService {
     List<Patient> getAllPatient();
     Patient getPatientByName();
-    Patient registerPatient(Patient patient);
+    Patient registerPatient(UserDetails userDetails,Patient patient);
     boolean existById(Long id);
     Patient getPatientById(Long id);
     boolean existsByIdAppointmentDayAndAppointmentTime(
