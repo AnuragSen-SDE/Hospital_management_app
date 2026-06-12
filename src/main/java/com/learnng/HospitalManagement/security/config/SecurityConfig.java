@@ -1,5 +1,6 @@
 package com.learnng.HospitalManagement.security.config;
 
+import com.learnng.HospitalManagement.exception.custom.CustomAccessDeniedHandler;
 import com.learnng.HospitalManagement.security.jwt.JwtAuthenticationFilter;
 import com.learnng.HospitalManagement.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     //private final PasswordEncoder passwordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedException;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -39,7 +41,8 @@ public class SecurityConfig {
                                         .anyRequest().authenticated()
 
                         )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception.accessDeniedHandler(customAccessDeniedException));
 
         return http.build();
 
@@ -63,4 +66,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
