@@ -1,10 +1,14 @@
 package com.learnng.HospitalManagement.security.jwt;
 
+import com.learnng.HospitalManagement.exception.custom.CustomAuthenticationEntryPointException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final CustomAuthenticationEntryPointException customAuthenticationEntryPointException;
 
     @Override
     protected void doFilterInternal(
@@ -36,7 +41,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String toke = authHeader.substring(7);
-        String userName = jwtService.extractUserName(toke);
+        String userName = "";
+        try{
+            userName = jwtService.extractUserName(toke);
+        } catch (ExpiredJwtException exception){
+            customAuthenticationEntryPointException.commence(
+                    request,
+                    response,
+                    new InsufficientAuthenticationException(
+                            "Token Exp ired",
+                            exception
+                    )
+            );
+        }
+
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null ){
 
@@ -55,5 +73,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request,response);
+
     }
 }
