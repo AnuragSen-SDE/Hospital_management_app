@@ -1,7 +1,7 @@
 package com.learnng.HospitalManagement.security.entity;
 
+import com.learnng.HospitalManagement.user.entity.Role;
 import com.learnng.HospitalManagement.user.entity.User;
-import com.learnng.HospitalManagement.user.entity.type.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +18,7 @@ public class CustomeUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().name());
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().getName());
         return List.of(grantedAuthority);
     }
 
