@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Builder
-public class UserPermissionDto {
+public class PermissionDto {
 
     @NotBlank(message = "Permission Value Can't be null or Blank")
     private String name;

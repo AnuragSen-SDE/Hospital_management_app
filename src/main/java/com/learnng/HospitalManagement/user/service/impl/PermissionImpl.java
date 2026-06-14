@@ -7,6 +7,9 @@ import com.learnng.HospitalManagement.user.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class PermissionImpl implements PermissionService {
@@ -21,5 +24,10 @@ public class PermissionImpl implements PermissionService {
 
 
         return permissionRepository.save(permission);
+    }
+
+    @Override
+    public List<Permission> findAllPermissionsByIds(Set<Long> permissionIds) {
+        return permissionRepository.findAllById(permissionIds);
     }
 }

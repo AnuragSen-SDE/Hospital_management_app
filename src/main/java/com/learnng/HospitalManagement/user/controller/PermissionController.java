@@ -1,7 +1,7 @@
 package com.learnng.HospitalManagement.user.controller;
 
 import com.learnng.HospitalManagement.user.entity.Permission;
-import com.learnng.HospitalManagement.user.entity.dto.UserPermissionDto;
+import com.learnng.HospitalManagement.user.entity.dto.PermissionDto;
 import com.learnng.HospitalManagement.user.mapper.PermissionMapper;
 import com.learnng.HospitalManagement.user.service.PermissionService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
@@ -24,9 +24,9 @@ public class PermissionController {
 
     @PostMapping
     public ResponseEntity<ApiResponse> createPermission(
-            @Valid @RequestBody UserPermissionDto userPermissionDto
+            @Valid @RequestBody PermissionDto permissionDto
     ) {
-        Permission permission = permissionService.createUserPermission(permissionMapper.toEntity(userPermissionDto));
+        Permission permission = permissionService.createUserPermission(permissionMapper.toEntity(permissionDto));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
