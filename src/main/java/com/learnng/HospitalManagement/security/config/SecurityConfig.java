@@ -4,6 +4,7 @@ import com.learnng.HospitalManagement.exception.custom.CustomAccessDeniedHandler
 import com.learnng.HospitalManagement.exception.custom.CustomAuthenticationEntryPointException;
 import com.learnng.HospitalManagement.security.jwt.JwtAuthenticationFilter;
 import com.learnng.HospitalManagement.security.service.CustomUserDetailsService;
+import com.learnng.HospitalManagement.util.RequestLoggingFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomAccessDeniedHandler customAccessDeniedException;
     private final CustomAuthenticationEntryPointException customAuthenticationEntryPointException;
+    private final RequestLoggingFilter requestLoggingFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -39,11 +41,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests( auth ->
                                 auth
-                                        .requestMatchers("/api/v1/auth/**").permitAll()
+                                        .requestMatchers(
+                                                "/api/v1/auth/**",
+                                                "/api/v1/permissions/**",
+                                                "/api/v1/roles/**"
+                                        ).permitAll()
                                         .anyRequest().authenticated()
 
                         )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(requestLoggingFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(
                         exception ->
                                 exception.accessDeniedHandler(customAccessDeniedException)

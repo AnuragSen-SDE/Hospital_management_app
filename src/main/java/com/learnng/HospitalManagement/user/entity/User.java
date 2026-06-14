@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Entity
+@Entity (name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
