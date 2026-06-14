@@ -1,9 +1,9 @@
 package com.learnng.HospitalManagement.user.controller;
 
-import com.learnng.HospitalManagement.user.entity.UserPermissions;
+import com.learnng.HospitalManagement.user.entity.Permission;
 import com.learnng.HospitalManagement.user.entity.dto.UserPermissionDto;
-import com.learnng.HospitalManagement.user.mapper.UserPermissionMapper;
-import com.learnng.HospitalManagement.user.service.UserPermissionService;
+import com.learnng.HospitalManagement.user.mapper.PermissionMapper;
+import com.learnng.HospitalManagement.user.service.PermissionService;
 import com.learnng.HospitalManagement.util.Entity.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,24 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/user/permissions")
-public class UserPermissionController {
+@RequestMapping("api/v1/permissions")
+public class PermissionController {
 
-    private final UserPermissionService userPermissionService;
-    private final UserPermissionMapper userPermissionMapper;
+    private final PermissionService permissionService;
+    private final PermissionMapper permissionMapper;
 
     @PostMapping
     public ResponseEntity<ApiResponse> createPermission(
             @Valid @RequestBody UserPermissionDto userPermissionDto
     ) {
-        UserPermissions userPermissions = userPermissionService.createUserPermission(userPermissionMapper.toEntity(userPermissionDto));
+        Permission permission = permissionService.createUserPermission(permissionMapper.toEntity(userPermissionDto));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
                         ApiResponse.builder()
                                 .status(HttpStatus.CREATED.value())
                                 .message("Permission Created Successfully")
-                                .data(userPermissionMapper.toDto(userPermissions))
+                                .data(permissionMapper.toDto(permission))
                                 .build()
                 );
 
