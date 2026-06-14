@@ -44,7 +44,7 @@ public class RoleController {
             @Valid @RequestBody AssignPermissionRequestDto assignPermissionRequestDto
             ) {
 
-        //System.out.println("ASSIGN PERMISSION API HIT");
+        System.out.println("ASSIGN PERMISSION API HIT");
         roleService.addPermission(roleId,assignPermissionRequestDto.getPermissionIds());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(
