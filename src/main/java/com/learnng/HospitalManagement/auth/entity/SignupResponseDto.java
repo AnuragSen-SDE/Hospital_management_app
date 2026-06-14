@@ -17,5 +17,4 @@ public class SignupResponseDto {
 
     private String password;
 
-    private Role role;
 }

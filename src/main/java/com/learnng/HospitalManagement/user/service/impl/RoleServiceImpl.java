@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -40,5 +41,10 @@ public class RoleServiceImpl implements RoleService {
 
         role.getPermissions().addAll(permissions);
         roleRepository.save(role);
+    }
+
+    @Override
+    public Role findByName(String name) {
+        return roleRepository.findByName(name).orElseThrow(() -> new RoleException("No Role Found With Specific Name"));
     }
 }

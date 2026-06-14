@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class InsuranceController {
     private final InsuranceMapper insuranceMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('INSURANCE_CREATE')")
     public ResponseEntity<ApiResponse> createInsurance(
             @Valid @RequestBody InsuranceDto insuranceDto
             ) {

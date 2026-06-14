@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class MedicineController {
     private final MedicineMapper medicineMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('MEDICINE_CREATE')")
     public ResponseEntity<ApiResponse> registerMedicine(
             @Valid @RequestBody MedicineDto medicineDto
             ) {
@@ -37,6 +39,7 @@ public class MedicineController {
     }
 
     @PutMapping("/{medicineId}/stock")
+    @PreAuthorize("hasAuthority('MEDICINE_UPDATE')")
     public ResponseEntity<ApiResponse> addMedicineStock(
             @PathVariable(name = "medicineId") Long medicineId,
             @RequestParam(name = "quantity") Integer quantity

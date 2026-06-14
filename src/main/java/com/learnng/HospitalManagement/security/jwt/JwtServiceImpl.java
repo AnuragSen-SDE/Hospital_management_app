@@ -30,7 +30,7 @@ public class JwtServiceImpl implements JwtService {
     public String generateToken(UserDetails userDetails) {
         CustomeUserDetails customeUserDetails = (CustomeUserDetails) userDetails;
         Map<String ,Object> map = new HashMap<>();
-        map.put("role",customeUserDetails.getRole().name());
+        map.put("role",customeUserDetails.getRole().getName());
         return createToken(map,userDetails);
     }
 

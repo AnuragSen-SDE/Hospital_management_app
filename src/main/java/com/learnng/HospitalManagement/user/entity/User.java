@@ -1,11 +1,11 @@
 package com.learnng.HospitalManagement.user.entity;
 
-import com.learnng.HospitalManagement.user.entity.type.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Entity (name = "users")
+@Entity
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -26,8 +26,8 @@ public class User {
     @Column(nullable = false)
     private Boolean isActive = false;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id",nullable = false)
     private Role role;
 
 }
