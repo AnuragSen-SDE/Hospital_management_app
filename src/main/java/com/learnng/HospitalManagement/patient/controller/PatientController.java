@@ -27,7 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/patient")
 @Slf4j
-@EnableMethodSecurity
 public class PatientController {
 
     //private static final Log log = LogFactory.getLog(PatientController.class);
@@ -35,6 +34,7 @@ public class PatientController {
     private final PatientMapper patientMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('PATIENT_CREATE')")
     public ResponseEntity<ApiResponse> registerPatient(
             @AuthenticationPrincipal CustomeUserDetails userDetails,
             @Valid @RequestBody PatientDto patientDto
@@ -52,12 +52,12 @@ public class PatientController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('PATIENT_VIEW')")
     public ResponseEntity<ApiResponse> getAllPatient() {
         List<PatientDto> patientDtos =  patientService.getAllPatient().stream().map(patientMapper::toPatientDto).toList();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.debug("authorities : {}", authentication.getAuthorities());
+        System.out.println("authorities : " + authentication.getAuthorities());
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .status(HttpStatus.OK.value())

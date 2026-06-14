@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class DoctorController {
     private final DoctorMapper doctorMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('DOCTOR_CREATE')")
     public ResponseEntity<ApiResponse> registerDoctor(
             @Valid @RequestBody DoctorDto doctorDto
             ) {

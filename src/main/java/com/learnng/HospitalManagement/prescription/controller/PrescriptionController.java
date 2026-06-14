@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class PrescriptionController {
     private final PrescriptionMapper prescriptionMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('PRESCRIPTION_CREATE')")
     public ResponseEntity<ApiResponse> registerPrescription(
             @Valid @RequestBody PrescriptionDto prescriptionDto
             ) {
@@ -36,6 +38,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/{prescriptionId}")
+    @PreAuthorize("hasAuthority('PRESCRIPTION_UPDATE')")
     public ResponseEntity<ApiResponse> addMedicineToPrescription(
             @PathVariable(name = "prescriptionId") Long prescriptionId,
             @Valid @RequestBody AddMedicineRequest addMedicineRequest
@@ -52,6 +55,7 @@ public class PrescriptionController {
     }
 
     @GetMapping("/{prescriptionId}")
+    @PreAuthorize("hasAuthority('PRESCRIPTION_VIEW')")
     public ResponseEntity<ApiResponse> getPrescriptionById(
             @PathVariable(name = "prescriptionId") Long prescriptionId
     ) {
@@ -66,6 +70,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/{prescriptionId}/save")
+    @PreAuthorize("hasAuthority('PRESCRIPTION_FINALIZE')")
     public ResponseEntity<ApiResponse> finalizeAndSavePrescription(
             @PathVariable ( name = "prescriptionId") Long prescriptionId
     ) {

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class AppointmentController {
     private final AppointmentMapper appointmentMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('APPOINTMENT_CREATE')")
     public ResponseEntity<ApiResponse> createAppointment(
             @Valid @RequestBody AppointmentDto appointmentDto
             ) {
@@ -37,6 +39,7 @@ public class AppointmentController {
     }
 
     @PutMapping("/{id}/{status}")
+    @PreAuthorize("hasAuthority('APPOINTMENT_UPDATE')")
     public ResponseEntity<ApiResponse> updateAppointmentState(
             @PathVariable(name = "id") Long appointmentId ,
             @PathVariable(name = "status")AppointmentStatus status

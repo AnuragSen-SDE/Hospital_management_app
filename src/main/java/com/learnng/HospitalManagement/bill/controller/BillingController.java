@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class BillingController {
     private final BillingMapper billingMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('BILL_CREATE')")
     public ResponseEntity<ApiResponse> generateBill(
             @Valid @RequestBody BillingDto billingDto
             ) {
@@ -37,6 +39,7 @@ public class BillingController {
     }
 
     @GetMapping("/{billingId}")
+    @PreAuthorize("hasAuthority('BILL_VIEW')")
     public ResponseEntity<ApiResponse> getBillingDetailsById(
             @PathVariable(name = "billingId") Long billingId
     ) {
