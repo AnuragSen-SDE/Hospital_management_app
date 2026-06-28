@@ -1,0 +1,33 @@
+
+services:
+  postgresql:
+
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: hospital_db
+      POSTGRES_USER: postgres
+    container_name: plsql_server
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  app:
+    image: hospital_app:1.0
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/hospital_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+
+    container_name: hospital_app
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
