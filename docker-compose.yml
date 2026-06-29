@@ -17,8 +17,11 @@ services:
       timeout: 3s
       retries: 5
 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   app:
-    image: hospital_app:1.0
+    image: anuragsen007/hospital_app:latest
     ports:
       - "8080:8080"
     environment:
@@ -31,3 +34,6 @@ services:
       postgresql:
         condition: service_healthy
 
+
+volumes:
+  postgres_data:
